@@ -57,6 +57,6 @@ def scrap (f):
 
     return df
 
-P = input('Ingrese el país: ')
+país = input('Ingrese el país: ')
 
-print(scrap(P))
+print(scrap(país))
