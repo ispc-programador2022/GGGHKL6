@@ -6,6 +6,7 @@ import sys
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36'}
 baseURL = 'https://datosmacro.expansion.com'
 
+
 def get_countries(prop):
     url = baseURL + '/paises'  
     
@@ -31,7 +32,7 @@ def get_countries(prop):
         
         return countries_names
     
-
+    
 def get_countries_data(country_url):
     url = baseURL + '/paises/' + country_url
     
@@ -55,10 +56,8 @@ def get_countries_data(country_url):
     
     h1 = s.find('h1').find_all('a')[1].text.split(':')[0]
     
-    # print(f'Datos obtenidos de: {h1} ✓')
     sys.stdout.write('\r')
-    sys.stdout.write('')
-    sys.stdout.flush()
+    sys.stdout.write(' '*5)
     print(f'Datos obtenidos de: {h1} ✓')
     
     return {
@@ -83,23 +82,38 @@ def get_vaccine_info_by_country_url(country_url):
         data[th.text] = []
     
     data_frame = pd.DataFrame(data)
-    print(data_frame)
+    # print(data_frame)
     
     values_row = table_data.tbody.find_all('tr')
 
-    print(data_frame.columns.values)
+    # print(data_frame.columns.values)
     
     index = 0
     for tr in values_row:
         col = 0
         for td in tr:
-            data_frame.loc[index, data_frame.columns.values[col]] = td.text
+            input_value = ''
+            try:
+                if col == 0:
+                    input_value = td.text
+                elif col > 0 and col < 4:
+                    input_value = int(''.join(td.text.split('.')))
+                else:
+                    input_value = float('.'.join(td.text.split('%')[0].split(',')))
+            except ValueError:
+                input_value = 0    
+                
+            data_frame.loc[index, data_frame.columns.values[col]] = input_value
+            
+            # print(type(input_value), input_value)
             col = col + 1
         
         index = index + 1        
     
     table_name = s.find('h1').find_all('a')[1].text
     
+    sys.stdout.write('\r')
+    sys.stdout.write(' '*5)
     print(f'Tabla obtenida: {table_name}')
     
     return data_frame

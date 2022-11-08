@@ -46,5 +46,5 @@ print('Aqui podra obtener datos sobre las vacunas administrdas, como asi tambien
 # <--
 
 # --> Impresion datos por pais
-# print(pd.DataFrame(mysql.vaccine_data_by_country('Argentina')))
+print(pd.DataFrame(mysql.vaccine_data_by_country('Afganistán')))
 # <--
