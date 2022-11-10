@@ -1,5 +1,5 @@
 import requests
-import pandas as pd
+import pandas as db
 from bs4 import BeautifulSoup
 import sys
 
@@ -81,7 +81,7 @@ def get_vaccine_info_by_country_url(country_url):
     for th in header:
         data[th.text] = []
     
-    data_frame = pd.DataFrame(data)
+    #data_frame = pd.DataFrame(data)
     # print(data_frame)
     
     values_row = table_data.tbody.find_all('tr')
@@ -103,7 +103,7 @@ def get_vaccine_info_by_country_url(country_url):
             except ValueError:
                 input_value = 0    
                 
-            data_frame.loc[index, data_frame.columns.values[col]] = input_value
+            #data_frame.loc[index, data_frame.columns.values[col]] = input_value
             
             # print(type(input_value), input_value)
             col = col + 1
@@ -116,6 +116,6 @@ def get_vaccine_info_by_country_url(country_url):
     sys.stdout.write(' '*5)
     print(f'Tabla obtenida: {table_name}')
     
-    return data_frame
+    #return data_frame
     
     
