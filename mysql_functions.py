@@ -115,16 +115,12 @@ def vaccine_data_by_country(country):
         try:
             with conection.cursor() as cursor:
                 country_id = get_country_id(country)
-                print(country_id)
                 
-                query = 'SELECT fecha AS Fecha, dosis_administradas AS Dosis_Administradas, personas_vacunadas AS Personas_Vacunadas, completamente_vacunadas AS Personas_Completamente_Vacunadas, porcentaje_completamente_vacunadas AS Porc_Completamente_Vacunadas FROM vacunas_covid19 WHERE pais_id = ' + str(country_id) + ';'
+                query = 'SELECT fecha, dosis_administradas, personas_vacunadas, completamente_vacunadas, porcentaje_completamente_vacunadas FROM vacunas_covid19 WHERE pais_id = ' + str(country_id) + ';'
                 
                 cursor.execute(query)
                 
                 rough_data = cursor.fetchall() 
-                
-                print(cursor.fetchall())
-
                 conection.commit()
         finally:
             conection.close()
@@ -143,7 +139,7 @@ def vaccine_data_by_country(country):
         print("Ocurrió un error al conectar: ", e)
 # <--
 
-def average(colum, pais):
+def get_country(name):
     try:
         conection = pymysql.connect(host='localhost',
                                 user='root',
@@ -152,16 +148,64 @@ def average(colum, pais):
         
         try:
             with conection.cursor() as cursor:
+                query = 'SELECT * FROM paises WHERE nombre = "' + name + '";'
+                cursor.execute(query)
+                country = cursor.fetchall()
                 
-                
-                query = 'INSERT INTO vacunas_covid19(fecha, dosis_administradas, personas_vacunadas, completamente_vacunadas, porcentaje_completamente_vacunadas, pais_id) VALUES (%s, %s, %s, %s, %s, %s);'
-            
-                cursor.execute(query, (dato['fecha'], dato['dosis_adm'], dato['pers_vac'], dato['comp_vac'], dato['por_comp_vac'], country_id))
-                
-                conection.commit()
-                
+                return country
+
         finally:
             conection.close()
     
     except (pymysql.err.OperationalError, pymysql.err.InternalError) as e:
         print("Ocurrió un error al conectar: ", e)
+        
+def get_contry_list():
+    try:
+        conection = pymysql.connect(host='localhost',
+                                user='root',
+                                password='',
+                                db='estadisticas_vacunas')
+        
+        try:
+            with conection.cursor() as cursor:
+                query = 'SELECT nombre FROM paises;'
+                cursor.execute(query)
+                country_list = cursor.fetchall()
+                paises = []
+                
+                for pais in country_list:
+                    paises.append(pais[0])
+                
+                return paises
+        finally:
+            conection.close()
+    
+    except (pymysql.err.OperationalError, pymysql.err.InternalError) as e:
+        print("Ocurrió un error al conectar: ", e)
+
+
+# def average(colum, pais):
+#     try:
+#         conection = pymysql.connect(host='localhost',
+#                                 user='root',
+#                                 password='',
+#                                 db='estadisticas_vacunas')
+        
+#         try:
+#             with conection.cursor() as cursor:
+                
+                
+#                 query = 'INSERT INTO vacunas_covid19(fecha, dosis_administradas, personas_vacunadas, completamente_vacunadas, porcentaje_completamente_vacunadas, pais_id) VALUES (%s, %s, %s, %s, %s, %s);'
+            
+#                 cursor.execute(query, (dato['fecha'], dato['dosis_adm'], dato['pers_vac'], dato['comp_vac'], dato['por_comp_vac'], country_id))
+                
+#                 conection.commit()
+                
+#         finally:
+#             conection.close()
+    
+#     except (pymysql.err.OperationalError, pymysql.err.InternalError) as e:
+#         print("Ocurrió un error al conectar: ", e)
+
+get_contry_list()

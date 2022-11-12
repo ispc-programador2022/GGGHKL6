@@ -54,11 +54,11 @@ def get_countries_data(country_url):
         if li.span.text == 'Superficie':
             surface = int(''.join(li.text.split(" ")[1].split('.')))
     
-    h1 = s.find('h1').find_all('a')[1].text.split(':')[0]
+    h1 = s.find('h1').find('a', href=url).text.split(':')[0]
     
     sys.stdout.write('\r')
     sys.stdout.write(' '*5)
-    print(f'Datos obtenidos de: {h1} ✓')
+    print(f'Datos obtenidos de: {h1} ✓ - (url: {country_url})')
     
     return {
         'poblacion': population,
@@ -74,13 +74,33 @@ def get_vaccine_info_by_country_url(country_url):
     s = BeautifulSoup(r, 'lxml')
     
     table_data = s.find('table', id='tb0')
+    
+    if table_data == None:        
+        return pd.DataFrame({
+            'Fecha': ['00/00/0000'],
+            'Dosis administradas': [0],
+            'Personas vacunadas': [0],
+            'Completamente vacunadas': [0],
+            '% Completamente vacunadas': [0]
+        })
+        
     header = table_data.thead.find_all('th')
     
-    data = {}
+    data = {}            
     
     for th in header:
         data[th.text] = []
     
+    data_header = ['Fecha', 'Dosis administradas', 'Personas vacunadas', 'Completamente vacunadas', '% Completamente vacunadas']
+    
+    if len(header) < 5:
+        for i in range(len(header), 5):
+            data[data_header[i]] = []
+            
+            if i == 4:
+                data[data_header[i]] = []
+                
+    # print(data)
     data_frame = pd.DataFrame(data)
     # print(data_frame)
     
@@ -104,10 +124,16 @@ def get_vaccine_info_by_country_url(country_url):
                 input_value = 0    
                 
             data_frame.loc[index, data_frame.columns.values[col]] = input_value
-            
             # print(type(input_value), input_value)
             col = col + 1
-        
+            
+        if col < 5:
+            for i in range(col, 5):
+                data_frame.loc[index, data_frame.columns.values[i]] = 0
+                
+                if i == 4:
+                    data_frame.loc[index, data_frame.columns.values[i]] = 0.0
+
         index = index + 1        
     
     table_name = s.find('h1').find_all('a')[1].text
@@ -117,6 +143,4 @@ def get_vaccine_info_by_country_url(country_url):
     print(f'Tabla obtenida: {table_name}')
     
     return data_frame
-    
-    
     
