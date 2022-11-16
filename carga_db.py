@@ -15,14 +15,14 @@ vaccine_data = {}
 
 print('Comenzando la recopilacion de datos:', end='\n\n')
 
-# --> Limpia la linea de consola actual
+# --> Limpia la linea de consola actual (✓)
 def clear_line():
     sys.stdout.write('\r')
     sys.stdout.write(' '*5)
     sys.stdout.write('\r')
 # <--
 
-# --> Imprime el msj solicitado
+# --> Imprime el msj solicitado (✓)
 def print_line(line):
     sys.stdout.write(line)
     sys.stdout.write('\n')
@@ -31,7 +31,7 @@ def print_line(line):
     print()
 # <--
 
-# --> Funcion que gerera la barra de proceso.
+# --> Funcion que gerera la barra de proceso. (✓)
 def barra():
     # print('barra')
     global bar
@@ -57,7 +57,7 @@ def barra():
     print() 
 # <--   
 
-# --> Obtine la una lista con los nombres y las urls correspondiente a cada pais para luego obtener sus datos.
+# --> Obtine la una lista con los nombres y las urls correspondiente a cada pais para luego obtener sus datos. (✓)
 def get_country_list():    
     def data():
         global country_list
@@ -67,7 +67,7 @@ def get_country_list():
         country_list_urls = scr.get_countries('urls')
         country_list_names = scr.get_countries('names')
         
-        for i in range(len(country_list_urls)):
+        for i in range(5):
             if country_list_urls[i] == 'zona-euro':
                 continue
             
@@ -89,7 +89,7 @@ def get_country_list():
     barra()            
 # <--     
 
-# --> Obtine la informacion de cada pais haciendo uso de la lista dada
+# --> Obtine la informacion de cada pais haciendo uso de la lista dada (✓)
 def get_contry_data(country_list):
     def data():
         global contry_data
@@ -114,7 +114,7 @@ def get_contry_data(country_list):
     barra()
 # <--
 
-# --> Carga los datos de los paises en la Base de Datos   
+# --> Carga los datos de los paises en la Base de Datos (✓)   
 def load_contry_db():
     def load():
         global keep_bar
@@ -138,7 +138,7 @@ def load_contry_db():
     barra()
 # <--
 
-# --> Obtiene los datos de vacunacion de cada pais de la lista   
+# --> Obtiene los datos de vacunacion de cada pais de la lista (✓)  
 def get_vaccine_data():
     def data():
         global keep_bar
@@ -158,7 +158,7 @@ def get_vaccine_data():
     barra()
 # <--
 
-# --> Carga los datos de vacunacion en la Base de Datos   
+# --> Carga los datos de vacunacion en la Base de Datos (✓)  
 def load_vaccine_data_db():
     def load():
         global keep_bar
@@ -196,7 +196,7 @@ def load_vaccine_data_db():
 print('El siguiente programa recopilara y cargara datos de en la base datos, asegurece de tener la base de datos creada con los siguientes datos:\n')
 print('Nombre BD: estadisticas_vacunas\n')
 print('Tabla 1:', f'{" "*3}Nombre: paises', f'{" "*3}Columnas: id, nombre, poblacion, superficie, continente', sep='\n', end='\n')
-print('Tabla 2:', f'{" "*3}Nombre: vacunas_covid19', f'{" "*3}Columnas: id, fecha, dosis_administradas, personas_vacunadas, completamente_vacunadas, porcentaje_completamente_vacunadas, pais_id', sep='\n', end='\n')
+print('Tabla 2:', f'{" "*3}Nombre: vacunas_covid19', f'{" "*3}Columnas: id, fecha, dosis_diaria, dosis_administradas, personas_vacunadas, completamente_vacunadas, porcentaje_completamente_vacunadas, pais_id', sep='\n', end='\n')
 
 print('\nEl procedimiento completo tomara varios minutos.\n')
 resp = input('Desea continuar?(S/N) ').lower()
@@ -222,4 +222,8 @@ time.sleep(0.5)
 
 print('Cargando datos de vacunas a la Base de Datos.')
 load_vaccine_data_db()
+time.sleep(0.5)
+
+print('Calculo y carga de datos de dosis diarias a la Base de Datos.')
+mysql.dosis_correction()
 time.sleep(0.5)

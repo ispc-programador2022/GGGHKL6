@@ -6,7 +6,7 @@ import sys
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36'}
 baseURL = 'https://datosmacro.expansion.com'
 
-
+# --> Obtine una lista con los nombres y urls de los paises. (✓)
 def get_countries(prop):
     url = baseURL + '/paises'  
     
@@ -31,8 +31,9 @@ def get_countries(prop):
             countries_names.append(country_name)
         
         return countries_names
+# <--  
     
-    
+# --> Obtiene los datos de un pais segun su url (✓)
 def get_countries_data(country_url):
     url = baseURL + '/paises/' + country_url
     
@@ -65,8 +66,9 @@ def get_countries_data(country_url):
         'superficie': surface,
         'continente': continent
     }
-    
+# <--
 
+# --> Obtine los datos de vacunacion segun url. (✓)
 def get_vaccine_info_by_country_url(country_url):
     url = baseURL + '/otros/coronavirus-vacuna/' + country_url
     
@@ -77,7 +79,7 @@ def get_vaccine_info_by_country_url(country_url):
     
     if table_data == None:        
         return pd.DataFrame({
-            'Fecha': ['00/00/0000'],
+            'Fecha': ['01/01/2020'],
             'Dosis administradas': [0],
             'Personas vacunadas': [0],
             'Completamente vacunadas': [0],
@@ -143,4 +145,4 @@ def get_vaccine_info_by_country_url(country_url):
     print(f'Tabla obtenida: {table_name}')
     
     return data_frame
-    
+# <--   
