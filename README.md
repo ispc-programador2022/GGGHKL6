@@ -1,6 +1,6 @@
 
 
-# GRUPO: GGGHKL
+# GRUPO: GGGHKL6
 ![](https://res.cloudinary.com/hevo/images/f_auto,q_auto/v1626678209/hevo-learn/data-science-logo-icon/data-science-logo-icon.png?_i=AA)
 
 
