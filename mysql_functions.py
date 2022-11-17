@@ -320,4 +320,35 @@ def get_last_vaccination(name):
     except (pymysql.err.OperationalError, pymysql.err.InternalError) as e:
         print("Ocurrió un error al conectar: ", e)
 # <--        
-        
+      
+# --> Comparacion de vacunas administradas, personas con alguna vacuna, y vacunadas totalmente. (✓)
+def comparison(pais):    
+    import pandas as pd
+    import matplotlib.pyplot as plt
+
+
+    try:
+            conection = pymysql.connect(host='localhost',
+                                    user='root',
+                                    password='',
+                                    db='estadisticas_vacunas')
+            
+            query_comp = 'SELECT nombre,dosis_administradas,personas_vacunadas,completamente_vacunadas FROM vacunas_covid19 INNER JOIN paises ON vacunas_covid19.pais_id = paises.id WHERE nombre="' + pais + '" ;'
+            #query='SELECT * FROM vacunas_covid19'
+            Data=pd.read_sql(query_comp,conection)
+            print(Data)
+            df=pd.DataFrame(Data)
+            df.groupby('nombre')['dosis_administradas','personas_vacunadas','completamente_vacunadas'].sum().plot(kind='bar')
+            plt.title('Comparación de Vacunas en el país')
+            plt.xlabel('País')
+            plt.ylabel('Cantidad (cientos de millones)')
+            plt.show()
+            
+            
+            
+    
+    except (pymysql.err.OperationalError, pymysql.err.InternalError) as e:
+        print("Ocurrió un error al conectar: ", e)    
+                    
+    finally:
+            conection.close()       
