@@ -332,7 +332,7 @@ def average():
     data_analysis()
 # <--
 
-# --> Promedio de vacunaciones diarias (✓) 
+# --> Comparación de vacunas (✓) 
 def comparison():
     print('\nCOMPARACIÓN DE VACUNAS, PERSONAS, Y PERSONAS CON TODAS LAS DOSIS:\n')
     print('Escriba el nombre del pais para obtener los datos de las vacunas administradas, personas vacunadas y con todas las dosis')
