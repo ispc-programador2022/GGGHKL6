@@ -352,10 +352,10 @@ def comparison():
         else:
             data = mysql.comparison(choise)
             
-            #if data == -1:
-                #print('Pais no encontrado')
-            #else:
-               # print(data)2
+            if data == -1:
+                print('Pais no encontrado')
+            else:
+                print(data)
     
     data_analysis()
 # <--
