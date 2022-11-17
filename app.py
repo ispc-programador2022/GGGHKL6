@@ -332,10 +332,38 @@ def average():
     data_analysis()
 # <--
 
+# --> Promedio de vacunaciones diarias (✓) 
+def comparison():
+    print('\nCOMPARACIÓN DE VACUNAS, PERSONAS, Y PERSONAS CON TODAS LAS DOSIS:\n')
+    print('Escriba el nombre del pais para obtener los datos de las vacunas administradas, personas vacunadas y con todas las dosis')
+    print('Escriba Lista para acceder a la lista disponible o exit para salir del menu')
+    
+    ok = True
+    
+    while ok:
+        choise = input('\nNombre del pais: ').lower()
+        
+        if choise == 'exit':
+            ok = False
+            continue
+        
+        if choise == 'Lista':
+            get_country_list()
+        else:
+            data = mysql.comparison(choise)
+            
+            if data == -1:
+                print('Pais no encontrado')
+            else:
+                print(data)
+    
+    data_analysis()
+# <--
+
 # --> Menu analisis de datos (✓)  
 def data_analysis():
     print('\nANALISIS DE DATOS:\n')
-    print('1 - Vacunas promedio por dia', '2 - Proyeccion de vacunacion (En construccion)', '3 - VOLVER', sep='\n', end='\n')
+    print('1 - Vacunas promedio por dia', '2 - Proyeccion de vacunacion (En construccion)', '3 - Comparación de vacunación', '4 - VOLVER', sep='\n', end='\n')
     
     ok = True
     
@@ -343,11 +371,11 @@ def data_analysis():
         while ok:
             choise = int(input(': '))
             
-            if choise == 3: # Ultima opcion, siempre VOLVER
+            if choise == 4: # Ultima opcion, siempre VOLVER
                 ok = False
                 continue
             
-            if choise > 2 or choise < 1:
+            if choise > 3 or choise < 1:
                 print('Ingrese una opción valida.')
             else:
                 ok = False
@@ -356,6 +384,9 @@ def data_analysis():
                     average() 
                 elif choise == 2:
                     vaccine_data() #########
+                elif choise == 3:
+                    comparison()
+  
     except ValueError:
             print('Por favor, seleccione una opcion segun el numero correspondiente.')
     
