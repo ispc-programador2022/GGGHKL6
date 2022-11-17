@@ -1,5 +1,5 @@
 import requests
-import pandas as pd
+import pandas as db
 from bs4 import BeautifulSoup
 import sys
 
